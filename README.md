@@ -1,27 +1,92 @@
-# Client
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8.
+# Content Management System (CMS) - Client-Side (Angular)
 
-## Development server
+This project is the frontend of a CMS for managing articles. It is built with Angular, providing users with a clean and intuitive interface to create, read, update, and delete articles. The frontend integrates seamlessly with a backend API, ensuring a smooth user experience.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Table of Contents
 
-## Code scaffolding
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Running Unit Tests](#running-unit-tests)
+- [Further Help](#further-help)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Overview
 
-## Build
+The CMS frontend is developed using [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8. It includes components for article management, user authentication, and a dashboard view. This project is designed to provide a responsive user experience for managing content dynamically.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Features
 
-## Running unit tests
+- **Article Management**: Create, edit, delete, and view articles.
+- **User Authentication**: Secure login and registration.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
+- **Dashboard**: Displays a list of all articles with CRUD functionality.
+- **Angular Router**: Seamless navigation between different components and pages.
+- **Error Handling**: Robust feedback mechanisms for users during actions like form submissions.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Technologies Used
 
-## Running end-to-end tests
+- **Angular 17.3.8**: Frontend framework for building the user interface.
+- **Tailwind CSS**: For responsive and modern styling.
+- **Angular Router**: Manages in-app navigation.
+- **Angular Services**: Handles API integration with the backend.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Installation
 
-## Further help
+To get started with the project, follow these steps:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   ```
+2. **Navigate to the project directory**:
+   ```bash
+   cd cms-client
+   ```
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+## Usage
+
+1. **Development server**:
+   Run the following command to start a local development server:
+   ```bash
+   ng serve
+   ```
+   Navigate to `http://localhost:4200/`. The app will automatically reload if you make any changes to the source files.
+
+2. **Building the project**:
+   To build the project for production, use:
+   ```bash
+   ng build
+   ```
+   The build artifacts will be stored in the `dist/` directory.
+
+## Project Structure
+
+- **src/app**: Contains all the Angular components, services, and routing modules.
+  - **components**: Includes components for article management and user authentication.
+  - **services**: Handles HTTP requests and API integration.
+  - **models**: TypeScript interfaces for defining the data structure (e.g., articles, users).
+  - **app-routing.module.ts**: Defines routes for different pages (dashboard, article details, login, etc.).
+
+## Running Unit Tests
+
+To execute the unit tests, run:
+```bash
+ng test
+```
+The tests are executed via [Karma](https://karma-runner.github.io).
+
+## Further Help
+
+For more information on Angular CLI, use:
+```bash
+ng help
+```
+Or refer to the official [Angular CLI Documentation](https://angular.io/cli).
