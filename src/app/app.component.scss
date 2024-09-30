@@ -1,0 +1,12 @@
+/* Default position for larger screens */
+ngx-sonner-toaster {
+    --ngx-sonner-toaster-position: bottom-right;
+  }
+  
+  /* Change position for smaller screens */
+  @media (max-width: 768px) {
+    ngx-sonner-toaster {
+      --ngx-sonner-toaster-position: top-center;
+    }
+  }
+  
