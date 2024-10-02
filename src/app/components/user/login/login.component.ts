@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { ToasterService } from '../../../service/toaster/toaster.service';
+import { UserService } from '../../../service/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -12,28 +14,36 @@ import { RouterLink } from '@angular/router';
 })
 export class LoginComponent {
 
-  signupForm!: FormGroup;
-  showPassword: any;
-  constructor() {
-    // Initialize the form group with form controls and validators
-    this.signupForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)])
+  loginForm!: FormGroup;
+  showPassword: boolean = false
+  constructor(private toasterService: ToasterService, private formBuilder: FormBuilder,private userService:UserService,private router:Router) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
   }
 
-
   onSubmit() {
-    if (this.signupForm.valid) {
-      console.log(this.signupForm.value);
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
+      this.toasterService.loadingToaster(this.userService.login(this.loginForm.value),'Login Successfully').then((res)=>{
+        console.log(res) 
+        localStorage.setItem('token',res.token)
+        this.router.navigate(['']);
+      }).catch((err)=>{
+        console.log(err);
+      })
     } else {
+      this.loginForm.markAllAsTouched()
       console.log("Form is invalid");
+      this.toasterService.showWarn('Please fill in all required fields correctly.');
     }
   }
 
 
   togglePasswordVisibility() {
-    throw new Error('Method not implemented.');
+    this.showPassword = !this.showPassword;
   }
 }

@@ -19,7 +19,7 @@ export class UserService {
     return this.http.post<authorizationResponse>(`${this.apiUrl}/user/signup`,userData)
   }
 
-  login(userData:User):Observable<authorizationResponse> {
+  login(userData: User):Observable<authorizationResponse> {
     return this.http.post<authorizationResponse>(`${this.apiUrl}/user/login`,userData)
   }
 }

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CloudinaryService } from '../../../service/cloudinary/cloudinary.service';
 import { ArticleService } from '../../../service/article/article.service';
+import { ToasterService } from '../../../service/toaster/toaster.service';
 
 @Component({
   selector: 'app-create-articles',
@@ -21,7 +22,7 @@ export class CreateArticlesComponent {
   isUploading: boolean = false
   // isLoading
 
-  constructor(private cloudinaryService:CloudinaryService,private articleService:ArticleService) {
+  constructor(private toasterService: ToasterService,private cloudinaryService:CloudinaryService,private articleService:ArticleService) {
     
   }
 
@@ -51,14 +52,10 @@ export class CreateArticlesComponent {
 
   onSubmit() {
     console.log('Publishing article...', this.getArticleData());
-    this.articleService.createArticle(this.getArticleData()).subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error:(err)=>{
-        console.log(err);
-        
-      }
+    this.toasterService.loadingToaster(this.articleService.createArticle(this.getArticleData()),'Article Created Successfully').then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
     })
   }
 

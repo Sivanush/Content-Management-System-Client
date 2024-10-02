@@ -16,9 +16,9 @@ export class NavbarComponent {
   subscription!:Subscription
   currentPage: string = '';
   navItems = [
-    { label: 'Dashboard', link: '/' },
+    { label: 'Dashboard', link: '' },
     { label: 'Articles', link: '/articles' },
-    { label: 'Categories', link: '/categories' },
+    { label: 'Create', link: '/create' },
     { label: 'Analytics', link: '/analytics' },
   ];
 
@@ -27,15 +27,23 @@ export class NavbarComponent {
 
 
   ngOnInit(): void {
+    
+    
     this.subscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd) // Type guard here
+      )
+      
+      .subscribe((event) => {
         this.currentPage = event.url; // Get the current route
+        console.log('Current page:', this.currentPage); // Log the current route
       });
+    console.log('end');
+
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe()
+    this.subscription.unsubscribe(); // Clean up the subscription
   }
 
 

@@ -43,13 +43,13 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
-     this.toasterService.loadingToaster(this.userService.signup(this.signupForm.value),'Login successful!').then((res) => {
+     this.toasterService.loadingToaster(this.userService.signup(this.signupForm.value),'Signup successfully!').then(async (res) => {
       console.log(res) 
       localStorage.setItem('token',res.token)
-      this.router.navigate(['/home']);
+      this.router.navigate(['']);
     }).catch((err) => {
       console.error(err); 
     });
