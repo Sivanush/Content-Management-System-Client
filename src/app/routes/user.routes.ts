@@ -6,6 +6,7 @@ import { CreateArticlesComponent } from '../components/user/create-articles/crea
 import { publicGuard } from '../guards/public.guard';
 import { authGuard } from '../guards/auth.guard';
 import { ListArticlesComponent } from '../components/user/list-articles/list-articles.component';
+import { ArticlePageComponent } from '../components/user/article-page/article-page.component';
 
 export const userRoutes: Routes = [
     // {
@@ -42,6 +43,11 @@ export const userRoutes: Routes = [
         canActivate:[authGuard]
 
     },
+    {
+        path:'articles/:id',
+        component:ArticlePageComponent,
+        canActivate:[authGuard]
+    }
 
     
 ];

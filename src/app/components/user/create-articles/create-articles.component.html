@@ -1,81 +1,98 @@
 <div class="min-h-full h-screen bg-gray-100">
-    <app-navbar></app-navbar>
-    <div class="py-10 bg-gray-100">
-    <header>
+  <app-navbar></app-navbar>
+  <div class="py-10 bg-gray-100">
+      <header>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 class="text-3xl font-bold leading-tight text-gray-900">Create Your Article</h1>
         </div>
-    </header>
-    <main class="flex-1 overflow-y-auto">
-        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <!-- Article form -->
-          <form (ngSubmit)="onSubmit()" class="bg-white shadow-md rounded-md px-8 pt-8 pb-8 mb-4">
-            <div class="mb-4">
-              <input class="shadow appearance-none border bg-white  rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-2xl font-bold" 
-                     id="title" 
-                     type="text" 
-                     placeholder="Article Title" 
-                     [(ngModel)]="articleTitle" 
-                     name="title">
-            </div>
-
+      </header>
+      <main>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <form (ngSubmit)="onSubmit()" class="bg-white shadow rounded-lg px-8 pt-6 pb-8 mb-4 mt-6">
             <div class="mb-6">
-              <select class="shadow bg-white  appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                      id="category" 
-                      [(ngModel)]="articleCategory" 
-                      name="category">
-                <option value="">Select a category</option>
-                <option value="technology">Technology</option>
-                <option value="lifestyle">Lifestyle</option>
-                <option value="business">Business</option>
-              </select>
+              <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+              <input 
+                type="text" 
+                id="title" 
+                name="title" 
+                [(ngModel)]="articleTitle"
+                placeholder="Enter your article title" 
+                class="shadow-sm appearance-none border py-2 px-3 text-gray-700 leading-tight  focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-lg bg-white border-gray-300 rounded-md"
+                required>
             </div>
-
+  
             <div class="mb-6">
-              <div *ngFor="let block of contentBlocks; let i = index" class="mb-4">
-                <div class=" flex items-center mb-2">
+              <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea 
+                id="description" 
+                name="description" 
+                [(ngModel)]="articleDescription"
+                rows="3" 
+                placeholder="Write a brief description of your article" 
+                class="shadow-sm appearance-none border py-2 px-3 text-gray-700 leading-tight bg-white focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                required></textarea>
+            </div>
+  
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Content Blocks</label>
+              <div *ngFor="let block of contentBlocks; let i = index" class="mb-4 p-4 bg-gray-50 rounded-md">
+                <div class="flex items-center mb-2">
                   <button type="button" (click)="moveBlockUp(i)" *ngIf="i !== 0" class="mr-2 text-gray-500 hover:text-gray-700">↑</button>
                   <button type="button" (click)="moveBlockDown(i)" *ngIf="i !== contentBlocks.length - 1" class="mr-2 text-gray-500 hover:text-gray-700">↓</button>
-                  <select [(ngModel)]="block.type" [name]="'blockType'+i" (change)="onBlockTypeChange(i)" class="mr-2 bg-white  border rounded py-1 px-2">
+                  <select [(ngModel)]="block.type" [name]="'blockType'+i" (change)="onBlockTypeChange(i)" class="mr-2 bg-white border rounded py-1 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="header">Header</option>
                     <option value="text">Text</option>
                     <option value="image">Image</option>
                     <option value="video">Video</option>
                   </select>
-                  <button type="button" (click)="removeBlock(i)" class="text-red-600 hover:text-red-800">×</button>
+                  <button type="button" (click)="removeBlock(i)" class="text-red-600 hover:text-red-800 focus:outline-none">×</button>
                 </div>
                 <div [ngSwitch]="block.type">
-                    <input *ngSwitchCase="'header'" type="text" [(ngModel)]="block.content" [name]="'block'+i" placeholder="Enter header text" 
-                           class="shadow appearance-none border bg-white rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl font-bold">
-                    
-                    <textarea *ngSwitchCase="'text'" [(ngModel)]="block.content" [name]="'block'+i" placeholder="Enter your text here" 
-                              class="shadow bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4"></textarea>
-                    
-                    <!-- Image Preview -->
-                <div *ngSwitchCase="'image'" class="flex flex-col items-start">
+                  <input *ngSwitchCase="'header'" type="text" [(ngModel)]="block.content" [name]="'block'+i" placeholder="Enter header text" 
+                         class="bg-white shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 text-xl font-bold">
+                  
+                  <textarea *ngSwitchCase="'text'" [(ngModel)]="block.content" [name]="'block'+i" placeholder="Enter your text here" 
+                            class="bg-white shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+                  
+                  <div *ngSwitchCase="'image'" class="flex flex-col items-start">
                     <input type="file" (change)="onFileSelected($event, 'image', i)" accept="image/*" 
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
+                           class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2">
                     <img *ngIf="block.content" [src]="block.content" alt="Uploaded image" class="w-full max-w-xs h-auto max-h-64 object-contain mt-2">
-                </div>
-                
-                <!-- Video Preview -->
-                <div *ngSwitchCase="'video'" class="flex flex-col items-start">
-                    <input type="file" (change)="onFileSelected($event, 'video', i)" accept="video/*" 
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
-                    <video *ngIf="block.content" [src]="block.content" controls class="w-full max-w-lg max-h-64 object-contain mt-2">
-                    Your browser does not support the video tag.
-                    </video>
-                </div>
-  
                   </div>
+                  
+                  <div *ngSwitchCase="'video'" class="flex flex-col items-start">
+                    <input type="file" (change)="onFileSelected($event, 'video', i)" accept="video/*" 
+                           class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2">
+                    <video *ngIf="block.content" [src]="block.content" controls class="w-full max-w-lg max-h-64 object-contain mt-2">
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
               </div>
-              <button type="button" (click)="addBlock()" class="mt-4 bg-gray-200 text-gray-800 py-2 px-4 rounded hover:bg-gray-300">
+              <button type="button" (click)="addBlock()" class="mt-4 bg-gray-200 text-gray-800 py-2 px-4 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                 + Add Block
               </button>
             </div>
-
+            
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+              <div class="flex flex-wrap gap-2 mb-2">
+                <div *ngFor="let tag of tags; let i = index" class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
+                  {{ tag }}
+                  <button type="button" (click)="removeTag(i)" class="ml-2 text-blue-600 hover:text-blue-800 focus:outline-none">×</button>
+                </div>
+              </div>
+              <input 
+                *ngIf="tags.length < 3"
+                type="text" 
+                (keydown.enter)="addTag($event)" 
+                placeholder="Add a tag (max 3)" 
+                class="bg-white shadow-sm appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              >
+            </div>
+  
             <div class="flex items-center justify-between">
-              <button class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+              <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                 Publish Article
               </button>
             </div>
@@ -83,11 +100,12 @@
         </div>
       </main>
     </div>
-</div>
-
-
-<div *ngIf="isUploading" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75">
+  </div>
+  
+  <div *ngIf="isUploading" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75">
     <div class="p-5 bg-white shadow-lg rounded">
-      <progress class="progress w-56"></progress>
+      <div class="w-56 h-2 bg-gray-200 rounded-full">
+        <div class="w-1/2 h-full bg-blue-600 rounded-full"></div>
+      </div>
     </div>
   </div>

@@ -20,4 +20,8 @@ export class ArticleService {
   getAllArticle():Observable<Article[]>{
     return this.http.get<Article[]>(`${this.apiUrl}/article`)
   }
+
+  getArticle(id:string):Observable<Article>{
+    return this.http.get<Article>(`${this.apiUrl}/article/${id}`)
+  }
 }

@@ -1,9 +1,16 @@
 export interface Article {
-    id: number;
+    _id: number;
     title: string;
     description: string;
     date: string;
     author: string;
-    categories: string[];
+    tags: string[];
+    content?: ContentBlock[]
     status: 'Published' | 'Draft' | 'Under Review';
-  }
+}
+
+interface ContentBlock {
+    id: string;
+    type: 'header' | 'text' | 'image' | 'video';
+    content: string;
+}

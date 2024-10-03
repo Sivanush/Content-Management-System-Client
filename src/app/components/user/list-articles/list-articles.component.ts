@@ -5,23 +5,37 @@ import { CommonModule } from '@angular/common';
 import { ArticleService } from '../../../service/article/article.service';
 import { ToasterService } from '../../../service/toaster/toaster.service';
 import { Article } from '../../../interface/article/article.interface';
+import { ChipsModule } from 'primeng/chips';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserService } from '../../../service/user/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list-articles',
   standalone: true,
-  imports: [NavbarComponent,RouterLink,CommonModule],
+  imports: [NavbarComponent,RouterLink,CommonModule,ReactiveFormsModule,ChipsModule,FormsModule,CommonModule],
   templateUrl: './list-articles.component.html',
   styleUrl: './list-articles.component.scss'
 })
 export class ListArticlesComponent {
 
-  constructor(private articleService:ArticleService,private toasterService:ToasterService) {}
-
+  constructor(private articleService:ArticleService,private toasterService:ToasterService,private userService:UserService) {}
 
   getAllArticle(){
     this.articleService.getAllArticle().subscribe({
       next: (data) => {
         this.articles = data
+
+        this.articles.forEach((ele)=>{
+          this.getUsername(ele.author).then((res)=>{
+            ele.author = res
+          })
+          .catch((err)=>{
+            console.log(err)
+            this.toasterService.showError('Failed to fetch username');
+          })
+        })
+
       },
       error:(error)=>{
         console.log(error)
@@ -30,65 +44,77 @@ export class ListArticlesComponent {
     })
   }
 
+
+  getUsername(userId:string): Promise<string>{
+    return this.userService.getUserDataById(userId).toPromise().then((res) => {
+      return res?.username || 'Unknown';  
+    })
+    .catch((err) => {
+      console.log(err);
+      this.toasterService.showError('Failed to fetch username');
+      return 'Unknown';  
+    });
+  }
+
   ngOnInit(): void {
     this.getAllArticle()
   }
 
   articles: Article[] = [
     {
-      id: 1,
+      _id: 1,
       title: 'Getting Started with Angular',
       description: 'Learn the basics of Angular and build your first app.',
       date: '2024-10-01',
       author: 'John Doe',
-      categories: ['Angular', 'Web Development'],
+      tags: ['Angular', 'Web Development'],
       status: 'Published'
     },
     {
-      id: 1,
+      _id: 1,
       title: 'Getting Started with Angular',
       description: 'Learn the basics of Angular and build your first app.',
       date: '2024-10-01',
       author: 'John Doe',
-      categories: ['Angular', 'Web Development'],
+      tags: ['Angular', 'Web Development'],
       status: 'Published'
     },
     {
-      id: 1,
+      _id: 1,
       title: 'Getting Started with Angular',
       description: 'Learn the basics of Angular and build your first app.',
       date: '2024-10-01',
       author: 'John Doe',
-      categories: ['Angular', 'Web Development'],
-      status: 'Published'
-    },
-
-    {
-      id: 1,
-      title: 'Getting Started with Angular',
-      description: 'Learn the basics of Angular and build your first app.',
-      date: '2024-10-01',
-      author: 'John Doe',
-      categories: ['Angular', 'Web Development'],
-      status: 'Published'
-    },
-    {
-      id: 1,
-      title: 'Getting Started with Angular',
-      description: 'Learn the basics of Angular and build your first app.',
-      date: '2024-10-01',
-      author: 'John Doe',
-      categories: ['Angular', 'Web Development'],
+      tags: ['Angular', 'Web Development'],
       status: 'Published'
     },
 
     {
-      id: 1,
+      _id: 1,
       title: 'Getting Started with Angular',
       description: 'Learn the basics of Angular and build your first app.',
       date: '2024-10-01',
       author: 'John Doe',
-      categories: ['Angular', 'Web Development'],
+      tags: ['Angular', 'Web Development'],
+      status: 'Published'
+    },
+    {
+      _id: 1,
+      title: 'Getting Started with Angular',
+      description: 'Learn the basics of Angular and build your first app.',
+      date: '2024-10-01',
+      author: 'John Doe',
+      tags: ['Angular', 'Web Development'],
+      status: 'Published'
+    },
+
+    {
+      _id: 1,
+      title: 'Getting Started with Angular',
+      description: 'Learn the basics of Angular and build your first app.',
+      date: '2024-10-01',
+      author: 'John Doe',
+      tags: ['Angular', 'Web Development'],
       status: 'Published'
     },
     // Add more sample articles here

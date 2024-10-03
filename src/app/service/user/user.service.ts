@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../interface/user/user.interface';
 import { Injectable } from '@angular/core';
-import { authorizationResponse } from './user.service.interface';
+import { authorizationResponse, userResponse } from './user.service.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -21,5 +21,9 @@ export class UserService {
 
   login(userData: User):Observable<authorizationResponse> {
     return this.http.post<authorizationResponse>(`${this.apiUrl}/user/login`,userData)
+  }
+
+  getUserDataById(userId:string):Observable<User>{
+    return this.http.get<User>(`${this.apiUrl}/user/${userId}`)
   }
 }
