@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -16,10 +16,10 @@ export class NavbarComponent {
   subscription!:Subscription
   currentPage: string = '';
   navItems = [
-    { label: 'Dashboard', link: '' },
-    { label: 'Articles', link: '/articles' },
+    { label: 'Home', link: '' },
+    { label: 'Dashboard', link: '/dashboard' },
     { label: 'Create', link: '/create' },
-    { label: 'Analytics', link: '/analytics' },
+    // { label: 'Analytics', link: '/analytics' },
   ];
 
   constructor(private router: Router) {}

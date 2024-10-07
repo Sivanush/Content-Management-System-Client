@@ -6,8 +6,7 @@ import { CloudinaryService } from '../../../service/cloudinary/cloudinary.servic
 import { ArticleService } from '../../../service/article/article.service';
 import { ToasterService } from '../../../service/toaster/toaster.service';
 import { ChipsModule } from 'primeng/chips';
-import { UserService } from '../../../service/user/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface ContentBlock {
   id: string;
@@ -16,15 +15,16 @@ interface ContentBlock {
 }
 
 @Component({
-  selector: 'app-create-articles',
+  selector: 'app-edit-article',
   standalone: true,
   imports: [NavbarComponent, FormsModule, CommonModule, ChipsModule],
-  templateUrl: './create-articles.component.html',
-  styleUrl: './create-articles.component.scss'
+  templateUrl: './edit-article.component.html',
+  styleUrl: './edit-article.component.scss'
 })
-export class CreateArticlesComponent implements OnInit {
+export class EditArticleComponent implements OnInit {
+  articleId!: string;
   articleTitle: string = '';
-  articleDescription:string = ''
+  articleDescription: string = '';
   contentBlocks: ContentBlock[] = [];
   isUploading: boolean = false;
   tags: string[] = [];
@@ -33,11 +33,30 @@ export class CreateArticlesComponent implements OnInit {
     private toasterService: ToasterService,
     private cloudinaryService: CloudinaryService,
     private articleService: ArticleService,
-    private router:Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.addBlock();
+    console.log('asdddddddddddd');
+    
+    this.articleId = this.route.snapshot.paramMap.get('id')!;
+    this.loadArticle();
+  }
+
+  loadArticle() {
+    this.articleService.getArticle(this.articleId).subscribe({
+      next: (article) => {
+        this.articleTitle = article.title;
+        this.articleDescription = article.description;
+        this.contentBlocks = article.content!;
+        this.tags = article.tags;
+      },
+      error: (error) => {
+        console.error('Error loading article', error);
+        this.toasterService.showError('Failed to load article');
+      }
+    });
   }
 
   addBlock() {
@@ -81,15 +100,16 @@ export class CreateArticlesComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Publishing article...', this.getArticleData());
+    console.log('Updating article...', this.getArticleData());
     this.toasterService.loadingToaster(
-      this.articleService.createArticle(this.getArticleData()),
-      'Article Created Successfully'
+      this.articleService.editArticle(this.articleId, this.getArticleData()),
+      'Article Updated Successfully'
     ).then((res) => {
       console.log(res);
-      this.router.navigate(['articles',res._id])
+      this.router.navigate(['articles', this.articleId]);
     }).catch((err) => {
       console.log(err);
+      this.toasterService.showError('Failed to update article');
     });
   }
 
@@ -133,6 +153,7 @@ export class CreateArticlesComponent implements OnInit {
         error: (error) => {
           console.error(`${type} upload failed`, error);
           this.isUploading = false;
+          this.toasterService.showError(`Failed to upload ${type}`);
         }
       });
     }

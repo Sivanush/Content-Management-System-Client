@@ -7,6 +7,8 @@ import { publicGuard } from '../guards/public.guard';
 import { authGuard } from '../guards/auth.guard';
 import { ListArticlesComponent } from '../components/user/list-articles/list-articles.component';
 import { ArticlePageComponent } from '../components/user/article-page/article-page.component';
+import { ProfileComponent } from '../components/user/profile/profile.component';
+import { EditArticleComponent } from '../components/user/edit-article/edit-article.component';
 
 export const userRoutes: Routes = [
     // {
@@ -25,12 +27,12 @@ export const userRoutes: Routes = [
         canActivate:[publicGuard]
 
     },
-    {
-        path:'',
-        component:HomeComponent,
-        canActivate:[authGuard]
+    // {
+    //     path:'',
+    //     component:HomeComponent,
+    //     canActivate:[authGuard]
 
-    },
+    // },
     {
         path:'create',
         component:CreateArticlesComponent,
@@ -38,7 +40,7 @@ export const userRoutes: Routes = [
 
     },
     {
-        path:'articles',
+        path:'',
         component:ListArticlesComponent,
         canActivate:[authGuard]
 
@@ -46,6 +48,16 @@ export const userRoutes: Routes = [
     {
         path:'articles/:id',
         component:ArticlePageComponent,
+        // canActivate:[authGuard]
+    },
+    {
+        path:'dashboard',
+        component:ProfileComponent,
+        canActivate:[authGuard]
+    },
+    {
+        path:'articles/edit/:id',
+        component:EditArticleComponent,
         canActivate:[authGuard]
     }
 

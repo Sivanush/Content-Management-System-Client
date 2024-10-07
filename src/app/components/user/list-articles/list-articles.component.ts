@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../service/user/user.service';
 import { Observable } from 'rxjs';
 
+
 @Component({
   selector: 'app-list-articles',
   standalone: true,
@@ -27,7 +28,7 @@ export class ListArticlesComponent {
         this.articles = data
 
         this.articles.forEach((ele)=>{
-          this.getUsername(ele.author).then((res)=>{
+          this.getUsername(ele.author!).then((res)=>{
             ele.author = res
           })
           .catch((err)=>{
@@ -60,65 +61,7 @@ export class ListArticlesComponent {
     this.getAllArticle()
   }
 
-  articles: Article[] = [
-    {
-      _id: 1,
-      title: 'Getting Started with Angular',
-      description: 'Learn the basics of Angular and build your first app.',
-      date: '2024-10-01',
-      author: 'John Doe',
-      tags: ['Angular', 'Web Development'],
-      status: 'Published'
-    },
-    {
-      _id: 1,
-      title: 'Getting Started with Angular',
-      description: 'Learn the basics of Angular and build your first app.',
-      date: '2024-10-01',
-      author: 'John Doe',
-      tags: ['Angular', 'Web Development'],
-      status: 'Published'
-    },
-    {
-      _id: 1,
-      title: 'Getting Started with Angular',
-      description: 'Learn the basics of Angular and build your first app.',
-      date: '2024-10-01',
-      author: 'John Doe',
-      tags: ['Angular', 'Web Development'],
-      status: 'Published'
-    },
-
-    {
-      _id: 1,
-      title: 'Getting Started with Angular',
-      description: 'Learn the basics of Angular and build your first app.',
-      date: '2024-10-01',
-      author: 'John Doe',
-      tags: ['Angular', 'Web Development'],
-      status: 'Published'
-    },
-    {
-      _id: 1,
-      title: 'Getting Started with Angular',
-      description: 'Learn the basics of Angular and build your first app.',
-      date: '2024-10-01',
-      author: 'John Doe',
-      tags: ['Angular', 'Web Development'],
-      status: 'Published'
-    },
-
-    {
-      _id: 1,
-      title: 'Getting Started with Angular',
-      description: 'Learn the basics of Angular and build your first app.',
-      date: '2024-10-01',
-      author: 'John Doe',
-      tags: ['Angular', 'Web Development'],
-      status: 'Published'
-    },
-    // Add more sample articles here
-  ];
+  articles!: Article[] 
 
 
 

@@ -13,8 +13,8 @@ export class ArticleService {
 
   private apiUrl = environment.apiUrl
 
-  createArticle(article:any){
-    return this.http.post(`${this.apiUrl}/article/create`, article)
+  createArticle(article:Article):Observable<Article>{
+    return this.http.post<Article>(`${this.apiUrl}/article/create`, article)
   }
 
   getAllArticle():Observable<Article[]>{
@@ -23,5 +23,13 @@ export class ArticleService {
 
   getArticle(id:string):Observable<Article>{
     return this.http.get<Article>(`${this.apiUrl}/article/${id}`)
+  }
+
+  getArticlesForUser():Observable<Article[]>{
+    return this.http.get<Article[]>(`${this.apiUrl}/article/profile/list`);
+  }
+
+  editArticle(id:string,article:Article){
+    return this.http.post(`${this.apiUrl}/article/${id}`, article);
   }
 }

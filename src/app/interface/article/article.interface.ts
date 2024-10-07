@@ -1,12 +1,12 @@
 export interface Article {
-    _id: number;
+    _id?: number;
     title: string;
     description: string;
-    date: string;
-    author: string;
+    date?: string;
+    author?: string;
     tags: string[];
     content?: ContentBlock[]
-    status: 'Published' | 'Draft' | 'Under Review';
+    status?: 'Published' | 'Draft' | 'Under Review';
 }
 
 interface ContentBlock {
