@@ -4,7 +4,7 @@ declare module 'express' {
   interface Request {
     user?: {
       userId: string;
-      username?: string;
+      email?: string;
       // You can add more properties here if needed
     };
   }
